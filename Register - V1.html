@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center; /* Updated to center the content */
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+
+        #fixed {
+            width: 300px;
+            position: relative;
+            border: 3px solid #ffffff;
+            padding: 20px;
+            background-color: #ffffff;
+        }
+
+        .logo-container {
+            text-align: center;
+            margin-bottom: 05px; 
+        }
+
+        input[type=text], input[type=email], input[type=tel], input[type=password] {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            box-sizing: border-box;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .link {
+            margin-top: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="fixed">
+        <div class="logo-container">
+            <img src="Logo.png" alt="Le CCP" width="250" height="400">
+        </div>
+        
+        <form action="Login - V1.html" method="post">
+        
+        <form>
+            <label for="Uname">Username</label>
+            <input type="text" id="Uname" name="Uname" required>
+
+            <label for="Email">Email</label>
+            <input type="email" id="Email" name="Email" required>
+
+            <label for="Phone">Phone Number</label>
+            <input type="tel" id="Phone" name="Phone" required>
+
+            <label for="Address">Address</label>
+            <input type="text" id="Address" name="Address" required>
+
+            <label for="Pass">Password</label>
+            <input type="password" id="Pass" name="Pass" required>
+
+            <label for="ConfirmPass">Confirm Password</label>
+            <input type="password" id="ConfirmPass" name="ConfirmPass" required>
+
+            <button type="submit">Register</button>
+        </form>
+
+        <div class="link">Already a member? <a href="Login - V1.html">LOGIN!</a></div>
+    </div>
+</body>
+</html>

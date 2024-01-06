@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 20px auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-evenly;
+            padding: 20px;
+            background-color: #cecece;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        .Pbar {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .circle {
+            width: 100px;
+            height: 100px;
+            background-color: #4CAF50;
+            border-radius: 50%;
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+
+        #previewImage {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        input {
+            width: 60%;
+            padding: 8px;
+            margin: 8px;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 12px;
+            background-color: #4b4b4b;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .loglink a {
+            text-decoration: none;
+            color: #1100ff;
+            font-weight: bold;
+            border: 2px solid #1100ff;
+            padding: 5px 15px;
+            border-radius: 5px;
+            transition: color 0.3s ease, background-color 0.3s ease;
+        }
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Rewards</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="circle">
+            <label for="userImage">
+                <img id="previewImage" src="PFPPH.jpg" alt="Reward image here">
+            </label>
+            <input type="file" id="userImage" style="display: none" onchange="previewUserImage(event)">
+        </div>
+
+        <script>
+            function previewUserImage(event) {
+                const preview = document.getElementById('previewImage');
+                const file = event.target.files[0];
+
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        preview.src = e.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            }
+        </script>
+
+        <div class="Pbar">
+            <div class="Ptext">Add Rewards</div>
+        </div>
+
+        <input type="text" placeholder="Name"><br>
+        <input type="text" placeholder="Price"><br>
+        <input type="text" placeholder="Description"><br>
+
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px;">
+            <input type="checkbox" id="point1" name="points" value="point1">
+            <label for="point1">Cat 1</label>
+
+            <input type="checkbox" id="point2" name="points" value="point2">
+            <label for="point2">Cat 2</label>
+
+            <input type="checkbox" id="point3" name="points" value="point3">
+            <label for="point3">Cat 3
+            </label> <br>
+        </div>
+
+        <div class="loglink">
+            <a href="AFTERWARDS HERE">Done</a>
+            <script>
+                function sub() {
+                    alert('Ogey thx <3');
+                }
+            </script>
+        </div>
+    </div>
+
+</body>
+
+</html>

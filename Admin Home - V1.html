@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Home</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+      background-color: #f4f4f4;
+    }
+
+    .container {
+      max-width: 400px;
+      margin: 20px auto; 
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-evenly;
+      padding: 20px;
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+    }
+    .pfp {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 20px;
+    }
+
+    .Pbar {
+      width: 300px;
+      height: 40px;
+      background-color: #333;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 5px;
+      margin-bottom: 20px;
+    }
+
+    .Ptext {
+      color: white;
+      font-size: 1.2em;
+    }
+
+    .bar {
+      width: 300px;
+      height: 40px;
+      background-color: #22a7ff;
+      margin: 10px 0;
+      transition: background-color 0.3s ease;
+      border-radius: 15px;
+      line-height: 40px;
+      font-size: 1.2em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    .bar:hover {
+      background-color: #0300be;
+    }
+
+    .bar:active {
+      background-color: #2a39ff;
+    }
+
+    .loglink {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .loglink a {
+      text-decoration: none;
+      color: #c0392b;
+      font-weight: bold;
+      border: 2px solid #c0392b;
+      padding: 5px 15px;
+      border-radius: 5px;
+      transition: color 0.3s ease, background-color 0.3s ease;
+    }
+
+    .loglink a:hover {
+      color: #fff;
+      background-color: #c0392b;
+    }
+  </style>
+
+  <title>Home lol</title>
+</head>
+
+<body>
+  <div class="container">
+    <img class="pfp" src="PFPPH.jpg" alt="PFP HERE">
+    <div class="Pbar">
+      <div class="Ptext">Admin Moment no abuse pls</div>
+    </div>
+    <div class="bar" id="bar1">Reports - Trash</div>
+    <div class="bar" id="bar2">Reports - Finished Jobs</div>
+    <div class="bar" id="bar3">Add Jobs</div>
+    <div class="bar" id="bar4">Add Rewards</div>
+    <div class="loglink"> <a href="LogOut">Log Out</a></div>
+  </div>
+</body>
+
+</html>
+
