@@ -6,22 +6,23 @@
             font-family: 'Arial', sans-serif;
             text-align: center;
             margin: 50px;
+            background-color: #f2f2f2;
         }
 
         .container {
-        max-width: 400px;
-        margin: 20px auto;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: space-evenly;
-        padding: 20px;
-        background-color: #fff;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        border-radius: 10px;
+            max-width: 400px;
+            margin: 20px auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-evenly;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
         }
         
-            .pfp {
+        .pfp {
             width: 100px;
             height: 100px;
             border-radius: 50%;
@@ -29,9 +30,8 @@
             margin-bottom: 10px;
         }
 
-
         .Pbar {
-            background-color: #4CAF50;
+            background-color: #696969;
             color: white;
             padding: 10px;
             border-radius: 5px;
@@ -47,15 +47,17 @@
         }
 
         input {
-            width: 60%;
-            padding: 8px;
+            width: 80%;
+            padding: 10px;
             margin: 8px;
             box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
         }
 
         button {
             padding: 12px;
-            background-color: #4CAF50;
+            background-color: #0400df;
             color: white;
             border: none;
             border-radius: 5px;
@@ -78,25 +80,26 @@
 </head>
 <body>
     <div class="container">
-            <img class="pfp" src="PFPPH.jpg" alt="PFP HERE">
+        <img class="pfp" src="PFPPH.jpg" alt="PFP HERE">
         <div class="Pbar">
-            <div class="Ptext">Add Jobs</div>
+            <div class="loglink">Add Jobs</div>
         </div>
 
-        <input type="text" placeholder="Photo"><br>
-        <input type="text" placeholder="Name"><br>
-        <input type="text" placeholder="Location"><br>
-        <input type="text" placeholder="Description"><br>
-        <input type="text" placeholder="Points"><br>
+        <input type="text" placeholder="Photo">
+        <input type="text" placeholder="Name">
+        <input type="text" placeholder="Location">
+        <input type="text" placeholder="Description">
+        <input type="text" placeholder="Points">
+        
         <div class="loglink">
-            <a href="AFTERWARDS HERE">Done</a>
-            <script>
-                function sub() {
-                    alert('Ogey thx <3');
-                }
-            </script>
+            <button onclick="sub()">Done</button>
         </div>
-    </div>
 
+        <script>
+            function sub() {
+                alert('Ogey thx <3');
+            }
+        </script>
+    </div>
 </body>
 </html>
