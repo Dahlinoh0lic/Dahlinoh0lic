@@ -52,6 +52,12 @@
             box-sizing: border-box;
         }
 
+        .buttone{
+            margin-right: auto;
+            display: inline-block;
+        }
+
+
         button {
             padding: 12px;
             background-color: #4b4b4b;
@@ -78,6 +84,10 @@
 
 <body>
     <div class="container">
+        <div class="buttone">
+            <img src="back button 3.png" alt="Back" width="30" onclick="history.back()">
+            <img src="home button 3.png" alt="Home" width="30" onclick="history.back()">
+        </div>
         <div class="circle">
             <label for="userImage">
                 <img id="previewImage" src="PFPPH.jpg" alt="Reward image here">
@@ -103,10 +113,13 @@
         <div class="Pbar">
             <div class="Ptext">Add Rewards</div>
         </div>
+            <div class="container">
+
 
         <input type="text" placeholder="Name"><br>
         <input type="text" placeholder="Price"><br>
         <input type="text" placeholder="Description"><br>
+        
 
         <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px;">
             <input type="checkbox" id="point1" name="points" value="point1">
