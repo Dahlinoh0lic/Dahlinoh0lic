@@ -18,7 +18,7 @@
       align-items: center;
       justify-content: space-evenly;
       padding: 20px;
-      background-color: #fff;
+      background-color: #aaaaaa;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
       border-radius: 10px;
     }
@@ -43,9 +43,14 @@
     }
 
     .Ptext {
-      color: white;
+      color: rgb(255, 255, 255);
       font-size: 1.2em;
     }
+
+    .buttone{
+            margin-right: auto;
+            display: inline-block;
+        }
 
     .bar {
       width: 300px;
@@ -77,19 +82,24 @@
 
 <body>
   <div class="container">
+    <div class="buttone">
+        <img src="back button 3.png" alt="Back" width="30" onclick="history.back()">
+        <img src="home button 3.png" alt="Home" width="30" onclick="history.back()">
+    </div>
     <img class="pfp" src="PFPPH.jpg" alt="PFP HERE">
     <div class="Pbar">
-      <div class="Ptext">Profile/div>
+      <div class="Ptext">Profile</div>
     </div>
-    <p>User</p><br>
-    <p>Email</p><br>
-    <p>Phone Number</p><br>
-    <p>Address</p><br>
-    <p>Bank Account</p><br>
-    <p>Points</p><br>
+    <p>User</p>
+    <p>Email</p>
+    <p>Phone Number</p>
+    <p>Address</p>
+    <p>Bank Account</p>
+    <p>Points</p>
     <a href="SETTING" class="bar" id="bar5">Settings</a>
     <a href="LOGOUT" class="bar" id="bar6">Log Out</a>    
   </div>
 </body>
 
 </html>
+
