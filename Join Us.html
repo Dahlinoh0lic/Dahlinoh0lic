@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            margin: 50px;
+            background-color: #f2f2f2;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 20px auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-evenly;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        
+        .pfp {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 10px;
+        }
+
+        .Pbar {
+            background-color: #696969;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .circle {
+            width: 100px;
+            height: 100px;
+            background-color: #4CAF50;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+
+        input {
+            width: 80%;
+            padding: 10px;
+            margin: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 12px;
+            background-color: #696969;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .buttone{
+            margin-right: auto;
+            display: inline-block;
+        }
+
+        .loglink a {
+            text-decoration: none;
+            color: #1100ff;
+            font-weight: bold;
+            border: 2px solid #1100ff;
+            padding: 5px 15px;
+            border-radius: 5px;
+            transition: color 0.3s ease, background-color 0.3s ease;
+        }
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Jobs</title>
+</head>
+<body>
+    <div class="container">
+      <div class="buttone">
+        <img src="back button 3.png" alt="Back" width="30" onclick="history.back()">
+        <img src="home button 3.png" alt="Home" width="30" onclick="history.back()">
+    </div>
+    <div class="Pbar">
+        <div class="loglink">Join Us</div>
+    </div>
+        <img class="pfp" src="PFPPH.jpg" alt="PFP HERE">
+        <div class="Pbar">
+            <div class="loglink">Become a volunteer today!<br>
+
+
+                Get paid and enjoy rewards by joining us as a volunteer!</div>
+        </div>
+
+        <input type="text" placeholder="Name">
+        <input type="text" placeholder="IC">
+        <input type="text" placeholder="Bank ACC">
+
+        
+        <div class="loglink">
+            <button onclick="sub()">Submit</button>
+        </div>
+
+        <script>
+            function sub() {
+                alert('Ogey thx <3');
+            }
+        </script>
+    </div>
+</body>
+</html>
