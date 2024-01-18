@@ -1,98 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
     <style>
-        body {
-          margin: 0;
-          font-family: 'Arial', sans-serif;
-        }
-    
         .container {
-          max-width: 400px;
-          margin: 20px auto;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: space-evenly;
-          padding: 20px;
-          background-color: #fff;
-          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-          border-radius: 10px;
-        }
-    
-        .pfp {
-          width: 150px;
-          height: 150px;
-          border-radius: 50%;
-          object-fit: cover;
-          margin-bottom: 20px;
+            max-width: 400px;
+            margin: 20px auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-evenly;
+            padding: 50px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
         }
 
-        .buttone{
+        .button img {
+            border-radius: 50%;
+            cursor: pointer;
+            display: inline-block;
+            text-align: left;
+        }
+
+        .button {
             margin-right: auto;
             display: inline-block;
         }
-    
+
+        h1 {
+            margin: -10%;
+            padding-bottom: 15%;
+        }
+
         .Pbar {
-          width: 100%;
-          height: 40px;
-          background-color: #333;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          border-radius: 5px;
-          margin-bottom: 20px;
+            width: 100%;
+            height: 40px;
+            background-color: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 5px;
+            margin-bottom: 20px;
         }
-    
+
         .Ptext {
-          color: white;
-          font-size: 1.2em;
+            color: white;
+            font-size: 1.2em;
         }
-    
+
         .bar {
-          width: 300px;
-          height: 40px;
+          width: 600px;
+          height: 60px;
+    
           background-color: #3498db;
-          margin: 10px 0;
-          transition: background-color 0.3s ease;
-          border-radius: 15px;
-          line-height: 40px;
-          font-size: 1.2em;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          text-align: center;
-          color: #fff;
-          cursor: pointer;
-        }
-    
-        .bar:hover {
-          background-color: #2980b9;
-        }
-    
-        .bar:active {
-          background-color: #1f618d;
-        }
-      </style>
-      <title>Report - Trash</title>
-    </head>
-    
-    <body>
-      <div class="container">
-        <div class="buttone">
-          <img src="back button 3.png" alt="Back" width="30" onclick="history.back()">
-          <img src="home button 3.png" alt="Home" width="30" onclick="history.back()">
-      </div>
-        <div class="Pbar">
-          <div class="Ptext">Reports - Trash</div>
+    margin: 10px 0;
+    transition: background-color 0.3s ease;
+    border-radius: 35px;
+    font-size: 1.2em;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #fff;
+    cursor: pointer;
+    background-color: black;
+    margin-right: 125%;
+    clip-path: polygon(50% 0%, 100% 0%, 100% 100%, 50% 100%);
+    transition: background-color 0.3s ease, width 0.5s ease;
+}
+
+.bar:hover {
+    background-color: black;
+    width: 700px;
+}
+
+.bar:active {
+    background-color: black;
+}
+
+
+b{
+    margin-right: -20%;
+    display: inline-block;
+            width: 100%; 
+            text-align: center;
+}
+
+
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="button">
+            <img src="back button 3.png" alt="Back" width="30" onclick="history.back()">
+            <img src="home button 3.png" alt="Home" width="30" onclick="history.back()">
         </div>
-        <div class="bar" id="bar1">Report 1 - Name</div>
-        <div class="bar" id="bar2">Report 2 - Name</div>
-        <div class="bar" id="bar3">Report 3 - Name</div>
-        <div class="bar" id="bar4">Report 4 - Name</div>
-        <div class="bar" id="bar5">Report 5 - Name</div>
-        <div class="bar" id="bar6">Report 6 - Name</div>
-      </div>
-    </body>
+        <h1>Report Trash</h1><br>
+        <h1>LIST</h1>
+
+        <div class="bar" id="bar1"><b>Report 1</b></div>
+        <div class="bar" id="bar1"><b>Report 2</b></div>
+        <div class="bar" id="bar1"><b>Report 3</b></div>
+        <div class="bar" id="bar1"><b>Report 4</b></div>
+        <div class="bar" id="bar1"><b>Report 5</b></div>
+        <div class="bar" id="bar1"><b>Report 6</b></div>
     
-    </html>
+    </div>
+    
+</body>
+</html>
