@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Done Payment</title>
+</head>
+<style>
+    body {
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+      background-color: #f4f4f4;
+    }
+
+    .container {
+      max-width: 400px;
+      margin: 20px auto; 
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-evenly;
+      padding: 20px;
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+    }
+
+    .pfp {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 20px;
+    }
+
+    #text{
+        text-align: center;
+    }
+
+    .bar {
+      width: 350px;
+      height: 50px;
+      background-color: #3498db;
+      margin: 50px 0;
+      transition: background-color 0.3s ease;
+      border-radius: 35px;
+      line-height: 40px;
+      font-size: 1.2em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: #fff;
+      cursor: pointer;
+      background-color: black;
+
+    }
+
+    .bar:hover {
+      background-color: black;
+    }
+
+    .bar:active {
+      background-color: black;
+    }
+</style>
+</style>
+<body>
+    <div class="container">
+        <h1><b>Payment Method</b></h1>
+        <img class ='pfp'src="PFPPH.JPG" alt="PFP HERE">
+        <h3 id="text">Thank You,<br> <br>'Username'<br>
+        <br>Your contribution means a lot to us<br>
+        <br>Point gained:'Num'<br>
+        <br>Feel free to check out rewards store
+        </h3>
+        <div class="bar" id="bar1">
+            <b><a href="rewards-- list.html" >Rewards</b></a>
+        </div>
+        <div class="bar" id="bar1">
+            <b><a href="homePage.html">No Thanks</a></b>
+        </div>
+    </div>
+</body>
+</html>
