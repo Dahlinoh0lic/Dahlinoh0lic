@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Method</title>
+</head>
+<style>
+    body {
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+      background-color: #f4f4f4;
+    }
+
+    .container {
+      max-width: 400px;
+      margin: 20px auto; 
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-evenly;
+      padding: 20px;
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+    }
+
+    #previewImage {
+            width: 50%;
+            height: 50%;
+            object-position: center;
+        }
+
+</style>
+<body>
+    <div class="container">
+        <h1><b>Payment method</b></h1>
+        <a href="donePayment.html" id="previewImage">
+        <img id="previewImage" src='Touch_n_Go_eWallet_logo.png'alt="tng_logo" ><br>
+            <br><img id="previewImage" src='maybank-Logo.png'alt="maybank_logo"><br>
+            <br><img id="previewImage" src='CIMB-Logo.png'alt="cimb_logo"><br>
+            <br><img id="previewImage" src='paypal.png'alt="paypal_logo">
+        </a>
+        </div>
+        
+
+
+    </div>
+    
+</body>
+</html>
