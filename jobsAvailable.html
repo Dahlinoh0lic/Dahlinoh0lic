@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jobs Available</title>
+</head>
+<style>
+    body {
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+      background-color: #f4f4f4;
+    }
+
+    .container {
+      max-width: 400px;
+      margin: 20px auto; 
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-evenly;
+      padding: 20px;
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+    }
+
+    .bar {
+          width: 600px;
+          height: 60px;
+    
+          background-color: #3498db;
+    margin: 10px 0;
+    transition: background-color 0.3s ease;
+    border-radius: 35px;
+    font-size: 1.2em;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center; /* Center the text horizontally */
+    color: #fff;
+    cursor: pointer;
+    background-color: black;
+    margin-right: 110%;
+    clip-path: polygon(50% 0%, 100% 0%, 100% 100%, 50% 100%);
+    transition: background-color 0.3s ease, width 0.5s ease;
+}
+
+.bar:hover {
+    background-color: black;
+    width: 700px;
+}
+
+.bar:active {
+    background-color: black;
+}
+
+
+b{
+    margin-right: -50%;
+    display: inline-block;
+            width: 100%; /* Ensure the text takes up the full width of the parent container */
+            text-align: center;
+}
+
+
+</style>
+<body>
+    <div class="container">
+        <h1><b>Jobs Available</b></h1>
+ 
+    <div class="bar" id="bar1"><b>Job 1</b></div>
+    <div class="bar" id="bar1"><b>Job 2</b></div>
+    <div class="bar" id="bar1"><b>Job 3</b></div>
+    <div class="bar" id="bar1"><b>Job 4</b></div>
+    <div class="bar" id="bar1"><b>Job 5</b></div>
+    <div class="bar" id="bar1"><b>Job 6</b></div>
+    <div class="bar" id="bar1"><b>Job 7</b></div>
+    <div class="bar" id="bar1"><b>Job 8</b></div>
+    <div class="bar" id="bar1"><b>Job 9</b></div>
+ 
+</body>
+</html>
