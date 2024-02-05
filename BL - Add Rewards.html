@@ -119,23 +119,68 @@
         </div>
             <div class="container">
 
-
-        <input type="text" placeholder="Name"><br>
-        <input type="text" placeholder="Price"><br>
+            <form action="upload.php" method="post" enctype="multipart/form-data">
+        <label for="imageUpload">Select an image:</label>
+        <input type="file" name="imageUpload" id="imageUpload" accept="image/*">
+        <br>
+        <input type="text" placeholder="Item Name"><br>
         <input type="text" placeholder="Description"><br>
+        <input type="text" placeholder="Required Points"><br>
+    </form>
+
+    <?php
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["imageUpload"])) {
+    $targetDir = "uploads/";
+    $targetFile = $targetDir . basename($_FILES["imageUpload"]["name"]);
+    $uploadOk = 1;
+    $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
+
+    // Check if image file is a actual image or fake image
+    $check = getimagesize($_FILES["imageUpload"]["tmp_name"]);
+    if ($check === false) {
+        echo "File is not an image.";
+        $uploadOk = 0;
+    }
+
+    // Check file size
+    if ($_FILES["imageUpload"]["size"] > 500000) {
+        echo "Sorry, your file is too large.";
+        $uploadOk = 0;
+    }
+
+    // Allow only certain file formats
+    if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif") {
+        echo "Sorry, only JPG, JPEG, PNG, and GIF files are allowed.";
+        $uploadOk = 0;
+    }
+
+    // Check if $uploadOk is set to 0 by an error
+    if ($uploadOk == 0) {
+        echo "Sorry, your file was not uploaded.";
+    } else {
+        // If everything is ok, try to upload file
+        if (move_uploaded_file($_FILES["imageUpload"]["tmp_name"], $targetFile)) {
+            echo "The file " . htmlspecialchars(basename($_FILES["imageUpload"]["name"])) . " has been uploaded.";
+        } else {
+            echo "Sorry, there was an error uploading your file.";
+        }
+    }
+}
+?>
+        
         
 
-        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px;">
-            <input type="checkbox" id="point1" name="points" value="point1">
-            <label for="point1">Cat 1</label>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px;">
+    <input type="radio" id="point1" name="category" value="Cat 1">
+    <label for="point1">Cat 1</label><br>
 
-            <input type="checkbox" id="point2" name="points" value="point2">
-            <label for="point2">Cat 2</label>
+    <input type="radio" id="point2" name="category" value="Cat 2">
+    <label for="point2">Cat 2</label><br>
 
-            <input type="checkbox" id="point3" name="points" value="point3">
-            <label for="point3">Cat 3
-            </label> <br>
-        </div>
+    <input type="radio" id="point3" name="category" value="Cat 3">
+    <label for="point3">Cat 3</label>
+</div>
+
 
         <div class="loglink">
 
@@ -144,9 +189,8 @@
                     alert('Added.');
                 }
             </script>
-            <a href="BL - Home..html">Done</a>
+            <a href="BL - Home..html">Add</a>
         </div>
     </div>
 </body>
 </html>
-
