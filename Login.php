@@ -69,7 +69,9 @@
                     $result = $stmt->get_result();
 
                     if ($result->num_rows > 0) {
-                        header("Location: Home.php");
+                        $row = $result->fetch_assoc();
+                        $_SESSION["UID"] = $row["UID"];
+                        header("Location: Home.php?UID=" . $_SESSION["UID"]);
                     } else {
                         echo "Username or password do not match.";
                     }
