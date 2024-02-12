@@ -18,23 +18,24 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <style>
-    body {
-        background-image: url(pictures/green-background.jpg);
-        background-repeat: no-repeat;
-        background-position: center;
-        background-attachment: fixed;
-        background-size: cover;}
+        body {
+            background-image: url(pictures/green-background.jpg);
+            background-repeat: no-repeat;
+            background-position: center;
+            background-attachment: fixed;
+            background-size: cover;
+        }
     </style>
-    
+
 </head>
 
 <body>
     <div class="container pt-5 pb-5">
         <div class="row justify-content-center">
             <div class="col-md-8">
-            <div class="logo-container text-center"> 
-                <img src="pictures/Logo.png" alt="Logo" width="200px" height="auto">
-            </div>
+                <div class="logo-container text-center">
+                    <img src="pictures/Logo.png" alt="Logo" width="200px" height="auto">
+                </div>
                 <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
                     <div class="form-group">
                         <label for="Username">Username</label>
@@ -42,12 +43,15 @@
                     </div>
                     <div class="form-group">
                         <label for="Password">Password</label>
-                        <input type="password" class="form-control" name="password" placeholder="Enter Password" required>
+                        <input type="password" class="form-control" name="password" placeholder="Enter Password"
+                            required>
                     </div>
                     <button type="submit" class="btn btn-primary">Login</button>
                     <div class="link">No Account? Click <a href="Register.php">Here</a> to register.</div>
                 </form>
                 <?php
+                session_start(); // Start the session
+                
                 $servername = "localhost";
                 $username = "root";
                 $password = "";
@@ -75,8 +79,10 @@
                     } else {
                         echo "Username or password do not match.";
                     }
+
                     $stmt->close();
                 }
+
                 $conn->close();
                 ?>
             </div>
