@@ -1,3 +1,11 @@
+<?php
+    session_start(); // Start session
+
+    // Check if the user UID is set in the session
+    if (isset($_SESSION['UID'])) {
+        $UID = $_SESSION['UID'];
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -32,39 +40,97 @@
       margin-bottom: 20px;
     }
 
-    .loglink a {
-            text-decoration: none;
-            color: #1100ff;
-            font-weight: bold;
-            border: 2px solid #1100ff;
-            padding: 5px 15px;
-            border-radius: 5px;
-            transition: color 0.3s ease, background-color 0.3s ease;
+    .loglink button {
+        text-decoration: none;
+        color: #1100ff;
+        font-weight: bold;
+        border: 2px solid #1100ff;
+        padding: 5px 15px;
+        border-radius: 5px;
+        transition: color 0.3s ease, background-color 0.3s ease;
     }
+    .loglink {
+        display: flex;
+        justify-content: center;
+    }
+
+    button{
+      margin: 23%;
+    }
+    .grid-container {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 10px;
+    }
+
+    .grid-container input[type="radio"] {
+        margin-right: 5px; /* Adjust margin as needed */
+    }
+
+    .grid-container label {
+        display: flex;
+        align-items: center;
+    }
+
 </style>
 <body>
   <div class="container">
     <h1>Contributions</h1>
     <img class ='pfp'src="PFPPH.JPG" alt="PFP HERE">
   
-  <div style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px;">
-    <input type="radio" id="point1" name="" value="point1">
+    <div class="grid-container">
+    <input type="radio" id="point1" name="points" value="point1">
     <label for="point1">One Time</label>
 
     <input type="radio" id="point2" name="points" value="point2">
     <label for="point2">Monthly</label>
 
     <input type="radio" id="point3" name="points" value="point3">
-    <label for="point3">Annually</label> 
+    <label for="point3">Annually</label>
     </div>
-    <br><br><h2><b>Donation Amount</b></h2>
-    <input type="number" name="DAmount" id="DAmount"><br>
-    <div class="loglink">
-      <br><a href="payment.html">Proceed</a>
-    </div>
-
-    
-
+    <br><br>
+    <h2><b>Donation Amount</b></h2>
+<!-- Form to submit the donation amount to the next page -->
+<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
+    <input type="number" name="DAmount" id="DAmount" required min="0"><br>
+</form>
+        <div class="loglink">
+        <br><button type="submit">Proceed</button>
+        </div>
+    </form>
   </div>
+
+  <script>
+    document.getElementById("DAmount").addEventListener("keydown", function(event) {
+        // If the pressed key is the minus sign (-), prevent it from being entered
+        if (event.key === "-") {
+            event.preventDefault();
+        }
+    });
+  </script>
+
 </body>
 </html>
+
+
+
+<?php
+    // Check if the form is submitted
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        // Retrieve the donation amount from the form and sanitize it
+        $donationAmount = $_POST["DAmount"];
+
+        // Multiply the donation amount by 10 to calculate the points
+        $points = $donationAmount * 10;
+
+        // Store points in session for retrieval in payment.php
+        $_SESSION['points'] = $points;
+
+        // Redirect to payment.php with necessary data
+        header("Location: payment.php");
+        exit(); // Ensure script execution stops after redirection
+    }
+    } else {
+        echo "User UID not set in session.";
+    }
+?>
