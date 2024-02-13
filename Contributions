@@ -92,22 +92,28 @@
     <h2><b>Donation Amount</b></h2>
 <!-- Form to submit the donation amount to the next page -->
 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
-    <input type="number" name="DAmount" id="DAmount" required min="0"><br>
+    <input type="number" name="DAmount" id="DAmount" required min="1">
+    <br>
+    <div class="loglink">
+        <button type="submit">Proceed</button>
+    </div>
 </form>
-        <div class="loglink">
-        <br><button type="submit">Proceed</button>
-        </div>
-    </form>
-  </div>
 
-  <script>
+<script>
     document.getElementById("DAmount").addEventListener("keydown", function(event) {
-        // If the pressed key is the minus sign (-), prevent it from being entered
-        if (event.key === "-") {
+        // Allow backspace key
+        if (event.key === "Backspace") {
+            return;
+        }
+
+        // If the key pressed would result in a value less than 1 or is a negative sign or not a number
+        if (this.value.length === 0 && event.key === "0") {
             event.preventDefault();
         }
     });
-  </script>
+
+</script>
+
 
 </body>
 </html>
