@@ -1,29 +1,60 @@
+<?php
+    session_start(); // Start session
+
+    // Check if UID is set in the session (retrieved from login.php)
+    if (isset($_SESSION['UID'])) {
+        $UID = $_SESSION['UID']; // Retrieve UID
+    
+        // Check if points are set in the session (retrieved from contribution.php)
+        if (isset($_SESSION['points'])) {
+            $points = $_SESSION['points']; // Retrieve points
+        } else {
+            echo "Points not set in session."; // Echo this if points are not set
+        }
+    } else {
+        echo "User UID not set in session."; // Echo this if UID is not set
+    }
+
+    // Connect to the database
+    $servername = "localhost";
+    $username = "root";
+    $password = "";
+    $dbname = "assignment";
+
+    $conn = new mysqli($servername, $username, $password, $dbname);
+
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    // Fetch the username from the database based on the UID
+    $usernameQuery = "SELECT username FROM userdatabase WHERE UID = '$UID'";
+    $result = $conn->query($usernameQuery);
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $username = $row['username']; // Corrected to lowercase 'username' as per database schema
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Done Payment</title>
-</head>
-<style>
-    body {
-      margin: 0;
-      font-family: 'Arial', sans-serif;
-      background-color: #f4f4f4;
-    }
+    <style>
+         body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    flex-direction: column; /* Align children vertically */
+    justify-content: center; /* Center vertically */
+    align-items: center; /* Center horizontally */
+    height: 100vh; /* Make the body fill the entire viewport height */
+}
 
-    .container {
-      max-width: 400px;
-      margin: 20px auto; 
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: space-evenly;
-      padding: 20px;
-      background-color: #fff;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      border-radius: 10px;
-    }
 
     .pfp {
       width: 150px;
@@ -35,16 +66,17 @@
 
     #text{
         text-align: center;
+        margin-bottom: 20px;
     }
 
     .bar {
       width: 350px;
       height: 50px;
       background-color: #3498db;
-      margin: 50px 0;
+      margin: 20px 0;
       transition: background-color 0.3s ease;
       border-radius: 35px;
-      line-height: 40px;
+      line-height: 50px;
       font-size: 1.2em;
       display: flex;
       align-items: center;
@@ -63,23 +95,37 @@
     .bar:active {
       background-color: black;
     }
-</style>
-</style>
-<body>
-    <div class="container">
-        <h1><b>Payment Method</b></h1>
-        <img class ='pfp'src="PFPPH.JPG" alt="PFP HERE">
-        <h3 id="text">Thank You,<br> <br>'Username'<br>
+    </style>
+</head>
+<body>     
+        <h1><b>Payment Success!</b></h1>
+        <img class="pfp" src="PFPPH.JPG" alt="PFP HERE">
+        <h3 id="text">Thank You,<br><br>
+        <br>
+        <?php
+        echo "$username";
+        ?>    
         <br>Your contribution means a lot to us<br>
-        <br>Point gained:'Num'<br>
-        <br>Feel free to check out rewards store
+        <br>Points gained: <?php echo $points; ?><br>
+        <br>Feel free to check out the rewards store
         </h3>
         <div class="bar" id="bar1">
-            <b><a href="rewards-- list.html" >Rewards</b></a>
+            <b><a href="rewards--list.html">Rewards</a></b>
         </div>
-        <div class="bar" id="bar1">
+        <div class="bar" id="bar2">
             <b><a href="homePage.html">No Thanks</a></b>
         </div>
-    </div>
+      
+
 </body>
 </html>
+
+<?php
+// Clear points from session
+unset($_SESSION['UID']);
+unset($_SESSION['points']);
+?>
+<?php
+// Close the database connection
+$conn->close();
+?>
