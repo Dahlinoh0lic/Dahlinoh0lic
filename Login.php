@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
+    <title>Login</title>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
         crossorigin="anonymous"></script>
@@ -75,7 +75,13 @@
                     if ($result->num_rows > 0) {
                         $row = $result->fetch_assoc();
                         $_SESSION["UID"] = $row["UID"];
-                        header("Location: Home.php?UID=" . $_SESSION["UID"]);
+
+                        // Check if the user is an admin (assuming UID 1 corresponds to the admin)
+                        if ($_SESSION["UID"] == 1) {
+                            header("Location: AdminHome.php?UID=" . $_SESSION["UID"]);
+                        } else {
+                            header("Location: Home.php?UID=" . $_SESSION["UID"]);
+                        }
                     } else {
                         echo "Username or password do not match.";
                     }
