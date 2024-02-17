@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Report</title>
+    <title>JobsAvailable</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
@@ -151,8 +151,8 @@
                         <a class="dropdown-item" href="Home.php">Home</a>
                         <a class="dropdown-item" href="Contribute.php">Contribute</a>
                         <a class="dropdown-item" href="Rewards.php">Rewards</a>
-                        <a class="dropdown-item" href="JobsAvailable.php">Jobs Available</a>
-                        <a class="dropdown-item" href="Reporting.php">Report</a>
+                        <a class="dropdown-item" href="WQ-JobsAvailable.php">Jobs Available</a>
+                        <a class="dropdown-item" href="WQ-Report-Trash.php">Report</a>
                         <a class="dropdown-item" href="Login.php">Logout</a>
                     </div>
                 </li>
@@ -162,7 +162,9 @@
             </a>
         </div>
     </nav>
-<h1>User sent Report Details</h1>
+    <br>
+    <h1 style="text-align: center;">Admin Dashboard</h1>
+
 <?php
 // Database connection
 $servername = "localhost";
@@ -176,92 +178,93 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+// Check if the form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (isset($_POST['Approve'])) {
-        $jobID = $_POST['jobID'];
-        $jobName = isset($_POST['name']) ? $_POST['name'] : ''; 
-        $points = isset($_POST['points']) ? $_POST['points'] : 0;
-        // Update status to approved
-        $stmt = $conn->prepare("UPDATE jobs SET Status = 1 , JobName = ?, Points = ? WHERE JobID = ?");
-        $stmt->bind_param("sii", $jobName, $points, $jobID);
-        if ($stmt->execute()) {
-            echo "Report approved.";
-        } else {
-            echo "Error approving report: " . $stmt->error;
-        }
-        $stmt->close();
-    }
-    
+    if (isset($_POST["accept"])) {
+        $jobId = $_POST["jobId"];
+        $points = $_POST["points"];
 
-    if (isset($_POST['Reject'])) {
-        $jobID = $_POST['jobID'];
-        // Delete report
-        $stmt = $conn->prepare("DELETE FROM jobs WHERE JobID = ?");
-        $stmt->bind_param("i", $jobID);
-        if ($stmt->execute()) {
-            echo "Report rejected and deleted.";
-        } else {
-            echo "Error rejecting report: " . $stmt->error;
-        }
+        // Update status to accepted
+        $stmt = $conn->prepare("UPDATE jobs SET Status = 2 WHERE JobID = ?");
+        $stmt->bind_param("i", $jobId);
+        $stmt->execute();
         $stmt->close();
+
+        // Add points to user
+        $stmt = $conn->prepare("UPDATE users SET Points = Points + ? WHERE UID = ?");
+        $stmt->bind_param("ii", $points, $userId);
+        $stmt->execute();
+        $stmt->close();
+
+        echo "Job accepted successfully.";
+    } elseif (isset($_POST["delete"])) {
+        $jobId = $_POST["jobId"];
+
+        // Delete job
+        $stmt = $conn->prepare("DELETE FROM jobs WHERE JobID = ?");
+        $stmt->bind_param("i", $jobId);
+        $stmt->execute();
+        $stmt->close();
+
+        echo "Job deleted successfully.";
     }
 }
 
-// Query and display report details
-$sql = "SELECT * FROM jobs";
+// Query database for submitted jobs
+$sql = "SELECT * FROM jobs WHERE Status = 'submitted'";
 $result = $conn->query($sql);
 
-echo "<table border='1'>
-        <tr>
-            <th>Job ID</th>
-            <th>Location</th>
-            <th>Description</th>
-            <th>Photo</th>
-            <th>Action</th>
-        </tr>";
+// Display submitted jobs
 if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        echo "<tr>";
-        echo "<td>" . $row["JobID"] . "</td>";
-        echo "<td>" . $row["JobLocation"] . "</td>";
-        echo "<td>" . $row["JobDescription"] . "</td>";
-        echo "<td><img src='data:image/jpeg;base64," . base64_encode($row['JobPhoto']) . "' width='100' /></td>";
-        echo "<td>
-                <form action='JobAvailable" . htmlspecialchars($_SERVER["PHP_SELF"]) . "' method='post'>
-                    <input type='hidden' name='JobID' value='" . $row["JobID"] . "'>
-                    <input type='text' name='name' placeholder='Enter name' required>
-                    <input type='number' name='points' placeholder='Enter points' required>
-                    <button type='submit' name='Approve' style='background-color:blue;'>Approve</button>
-                    <button type='submit' name='Reject'>Reject</button>
-                </form>
-            </td>";
-        echo "</tr>";
+    echo "<h2>Submitted Jobs</h2>";
+    echo "<table border='1'>
+<tr>
+    <th>JobID</th>
+    <th>UID</th>
+    <th>Job Name</th>
+    <th>Points</th>
+    <th>Action</th>
+</tr>";
+        while ($row = $result->fetch_assoc()) {
+            echo "<tr>";
+            echo "<td>" . $row["JobID"] . "</td>";
+            echo "<td>" . $row["UID"] . "</td>";
+            echo "<td>" . $row["JobName"] . "</td>";
+            echo "<td>" . $row["Points"] . "</td>";
+            echo "<td>";
+            echo "<form method='post'>";
+            echo "<input type='hidden' name='jobId' value='" . $row["JobID"] . "'>";
+            echo "<input type='hidden' name='points' value='" . $row["Points"] . "'>";
+            echo "<button type='submit' name='accept'>Accept</button>";
+            echo "<button type='submit' name='delete'>Delete</button>";
+            echo "</form>";
+            echo "</td>";
+            echo "</tr>";
+        }
+        echo "</table>";
+    } else {
+        echo "No submitted jobs found.";
     }
-} else {
-    echo "<tr><td colspan='6'>No reports found</td></tr>";
-}
-echo "</table>";
 
-$conn->close();
-?>
-</div>
-    <div class="fixed-bottom-footer">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-3">
-                    <h6 class="text-uppercase mb-4 font-weight-bold">Community Cleanup Party</h6>
-                    <p>Welcome to CCP, where we are on a mission to create cleaner, greener, and more vibrant
-                        communities. Our passion for environmental stewardship drives us to make a positive impact on
-                        the world, one clean street at a time.</p>
-                </div>
-                <div class="col-md-3 ml-auto">
-                    <h6 class="text-uppercase mb-4 font-weight-bold">Contact Us</h6>
-                    <p><i class="fas fa-home mr-3"></i>Imaginary Street, Imagi Nation</p>
-                    <p><i class="fas fa-envelope mr-3"></i> ccp@gmail.com</p>
-                    <p><i class="fas fa-phone mr-3"></i> + 60 12 345 67890</p>
-                </div>
+    $conn->close();
+    ?>
+<div class="fixed-bottom-footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <h6 class="text-uppercase mb-4 font-weight-bold">Community Cleanup Party</h6>
+                <p>Welcome to CCP, where we are on a mission to create cleaner, greener, and more vibrant
+                    communities. Our passion for environmental stewardship drives us to make a positive impact on
+                    the world, one clean street at a time.</p>
+            </div>
+            <div class="col-md-3 ml-auto">
+                <h6 class="text-uppercase mb-4 font-weight-bold">Contact Us</h6>
+                <p><i class="fas fa-home mr-3"></i>Imaginary Street, Imagi Nation</p>
+                <p><i class="fas fa-envelope mr-3"></i> ccp@gmail.com</p>
+                <p><i class="fas fa-phone mr-3"></i> + 60 12 345 67890</p>
             </div>
         </div>
     </div>
+</div>
 </body>
 </html>
