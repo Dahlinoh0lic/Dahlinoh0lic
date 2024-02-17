@@ -85,7 +85,7 @@
 </head>
 
 <body>
-    <?php session_start(); // Start the session          ?>
+    <?php session_start(); // Start the session                 ?>
     <nav class="navbar navbar-expand-lg navbar-light custom-navbar">
         <a class="navbar-brand" href="Home.php">
             <img src="pictures/Logo.png" alt="Logo" width="30">
@@ -120,15 +120,6 @@
     <h1>Jobs Available</h1>
 
     <?php
-    // Check if the user is logged in
-    if (!isset($_SESSION["UID"])) {
-        header("Location: login.php"); // Redirect to login page if not logged in
-        exit();
-    }
-
-    // Access the UID from the session
-    $userUID = $_SESSION["UID"];
-
     // Database connection
     $servername = "localhost";
     $username = "root";
@@ -152,12 +143,10 @@
             $uploadOk = 1;
             $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 
-            // Check if file is an image
-            $check = getimagesize($_FILES["submittedPhoto"]["tmp_name"]);
-            if ($check !== false) {
-                $uploadOk = 1;
-            } else {
-                echo "File is not an image.";
+            // Allow certain file formats
+            $allowedFormats = ["jpg", "jpeg", "png", "gif"];
+            if (!in_array($imageFileType, $allowedFormats)) {
+                echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
                 $uploadOk = 0;
             }
 
@@ -167,38 +156,42 @@
                 $uploadOk = 0;
             }
 
-            // Allow certain file formats
-            if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif") {
-                echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
-                $uploadOk = 0;
-            }
-
             // Upload file
             if ($uploadOk == 1) {
                 if (move_uploaded_file($_FILES["submittedPhoto"]["tmp_name"], $target_file)) {
-                    // Read the uploaded image and encode as base64
+                    // Read the uploaded image as binary data
                     $imageData = file_get_contents($target_file);
-                    $base64Image = base64_encode($imageData);
 
-                    // Update job status and submitted photo in the database
-                    $sql = "UPDATE jobs SET SubmittedPhoto=?, Status=2, UID=? WHERE JobID=?";
-                    $stmt = $conn->prepare($sql);
-                    $stmt->bind_param("sii", $base64Image, $userUID, $jobId);
+                    // Check if user is logged in and UID is set in the session
+                    if (isset($_SESSION['UID'])) {
+                        $userUID = $_SESSION['UID'];
 
-                    if ($stmt->execute()) {
-                        // Check if the query executed successfully
-                        if ($stmt->affected_rows > 0) {
-                            echo "Photo submitted successfully!";
+                        // Update job status and submitted photo in the database
+                        $sql = "UPDATE jobs SET SubmittedPhoto=?, Status=2, UID=? WHERE JobID=?";
+                        $stmt = $conn->prepare($sql);
+                        $stmt->bind_param("sii", $imageData, $userUID, $jobId);
+
+                        if ($stmt->execute()) {
+                            // Check if the query executed successfully
+                            if ($stmt->affected_rows > 0) {
+                                echo "Photo submitted successfully!";
+                            } else {
+                                echo "Failed to submit photo. Please try again.";
+                            }
                         } else {
-                            echo "Failed to submit photo. Please try again.";
+                            echo "Error executing query: " . $stmt->error;
                         }
+
+                        $stmt->close();
                     } else {
-                        echo "Error executing query: " . $stmt->error;
+                        // Redirect or handle the case where the user is not logged in
+                        echo "User not logged in";
                     }
 
-                    $stmt->close();
+                    // Remove the uploaded file after processing
+                    unlink($target_file);
                 } else {
-                    echo "Sorry, there was an error uploading your file.";
+                    echo "Sorry, there was an error uploading your file. Error Code: " . $_FILES["submittedPhoto"]["error"];
                 }
             }
         } else {
@@ -231,23 +224,12 @@
             // Display JobID
             echo "<td>" . $row["JobID"] . "</td>";
 
-            // Check if JobPhoto contains binary data or a file name
+            // Check if JobPhoto contains binary data
             if (!empty($row['JobPhoto'])) {
                 $imageData = $row['JobPhoto'];
 
-                // Attempt to determine the image type
-                $finfo = new finfo(FILEINFO_MIME_TYPE);
-                $mimeType = $finfo->buffer($imageData);
-
-                if (strpos($mimeType, 'image') !== false) {
-                    // If it's binary data, display the image
-                    $imageData = base64_encode($imageData);
-                    echo "<td><img src='data:$mimeType;base64,$imageData' alt='Job Photo' width='100'></td>";
-                } else {
-                    // If it's not binary data, assume it's a file path
-                    $imagePath = "pictures/" . $imageData;
-                    echo "<td><img src='$imagePath' alt='Job Photo' width='100'></td>";
-                }
+                // Display the image if it's binary data
+                echo "<td><img src='data:image/jpeg;base64," . base64_encode($imageData) . "' alt='Job Photo' width='100'></td>";
             } else {
                 // If JobPhoto is empty
                 echo "<td>No Photo</td>";
@@ -273,6 +255,8 @@
     }
 
     echo "</table>";
+
+    // Close the database connection
     $conn->close();
     ?>
     <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
