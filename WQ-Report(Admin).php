@@ -162,6 +162,7 @@
             </a>
         </div>
     </nav>
+    <br>
 <h1>User sent Report Details</h1>
 <?php
 // Database connection
@@ -175,35 +176,6 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (isset($_POST['Approve'])) {
-        $jobID = $_POST['jobID'];
-        // Update status to approved
-        $stmt = $conn->prepare("UPDATE jobs SET Status = 1 WHERE JobID = ?");
-        $stmt->bind_param("i", $jobID);
-        if ($stmt->execute()) {
-            echo "Report approved.";
-        } else {
-            echo "Error approving report: " . $stmt->error;
-        }
-        $stmt->close();
-    }
-
-    if (isset($_POST['Reject'])) {
-        $jobID = $_POST['jobID'];
-        // Delete report
-        $stmt = $conn->prepare("DELETE FROM jobs WHERE JobID = ?");
-        $stmt->bind_param("i", $jobID);
-        if ($stmt->execute()) {
-            echo "Report rejected and deleted.";
-        } else {
-            echo "Error rejecting report: " . $stmt->error;
-        }
-        $stmt->close();
-    }
-}
-
 // Query and display report details
 $sql = "SELECT * FROM jobs";
 $result = $conn->query($sql);
@@ -224,9 +196,11 @@ if ($result->num_rows > 0) {
         echo "<td>" . $row["JobDescription"] . "</td>";
         echo "<td><img src='data:image/jpeg;base64," . base64_encode($row['JobPhoto']) . "' width='100' /></td>";
         echo "<td>
-                <form action='" . htmlspecialchars($_SERVER["PHP_SELF"]) . "' method='post'>
-                    <input type='hidden' name='jobID' value='" . $row["JobID"] . "'>
-                    <button type='submit' name='Approve'>Approve</button>
+                <form action='JobAvailable" . htmlspecialchars($_SERVER["PHP_SELF"]) . "' method='post'>
+                    <input type='hidden' name='JobID' value='" . $row["JobID"] . "'>
+                    <input type='text' name='name' placeholder='Enter name' required>
+                    <input type='number' name='points' placeholder='Enter points' required>
+                    <button type='submit' name='Approve' style='background-color:blue;'>Approve</button>
                     <button type='submit' name='Reject'>Reject</button>
                 </form>
             </td>";
@@ -236,6 +210,39 @@ if ($result->num_rows > 0) {
     echo "<tr><td colspan='6'>No reports found</td></tr>";
 }
 echo "</table>";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (isset($_POST['Approve'])) {
+        $jobID = $_POST['jobID'];
+        $jobName = isset($_POST['name']) ? $_POST['name'] : ''; 
+        $points = isset($_POST['points']) ? $_POST['points'] : 0;
+        // Update status to approved
+        $stmt = $conn->prepare("UPDATE jobs SET Status = 1 , JobName = ?, Points = ? WHERE JobID = ?");
+        $stmt->bind_param("sii", $jobName, $points, $jobID);
+        if ($stmt->execute()) {
+            echo "Report approved.";
+        } else {
+            echo "Error approving report: " . $stmt->error;
+        }
+        $stmt->close();
+    }
+    
+
+    if (isset($_POST['Reject'])) {
+        $jobID = $_POST['jobID'];
+        // Delete report
+        $stmt = $conn->prepare("DELETE FROM jobs WHERE JobID = ?");
+        $stmt->bind_param("i", $jobID);
+        if ($stmt->execute()) {
+            echo "Report rejected and deleted.";
+        } else {
+            echo "Error rejecting report: " . $stmt->error;
+        }
+        $stmt->close();
+    }
+}
+
+
 
 $conn->close();
 ?>
