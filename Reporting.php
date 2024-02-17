@@ -1,3 +1,71 @@
+<?php
+// Database connection
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "ccp";
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_FILES["JobPhoto"])) {
+    $jobLocation = $_POST["JobLocation"];
+    $jobDescription = $_POST["JobDescription"];
+
+    // Check if a photo is selected
+    if ($_FILES["JobPhoto"]["error"] == 0) {
+        $target_dir = "uploads/";
+        $target_file = $target_dir . basename($_FILES["JobPhoto"]["name"]);
+        $uploadOk = 1;
+        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+
+        // Check if file is an image
+        $check = getimagesize($_FILES["JobPhoto"]["tmp_name"]);
+        if ($check !== false) {
+            $uploadOk = 1;
+        } else {
+            echo "File is not an image.";
+            $uploadOk = 0;
+        }
+
+        // Check file size
+        if ($_FILES["JobPhoto"]["size"] > 500000) {
+            echo "Sorry, your file is too large.";
+            $uploadOk = 0;
+        }
+
+        // Allow certain file formats
+        if ($uploadOk == 1) {
+            if (move_uploaded_file($_FILES["JobPhoto"]["tmp_name"], $target_file)) {
+                // Read the uploaded image
+                $imageData = file_get_contents($target_file);
+
+                // Adjust your table and column names accordingly
+                $stmt = $conn->prepare("INSERT INTO jobs (JobPhoto, JobLocation, JobDescription, SubmittedPhoto) VALUES (?, ?, ?, ?)");
+                $stmt->bind_param("sssb", $imageData, $jobLocation, $jobDescription, $imageData);  // Store the raw image data here
+
+                if ($stmt->execute()) {
+                    // Redirect to your_success_page.php after successful submission
+                    header("Location: Home.php");
+                    exit(); // Ensure no further execution after the redirect
+                } else {
+                    echo "Error executing query: " . $stmt->error;
+                }
+
+                $stmt->close();
+            } else {
+                echo "Sorry, there was an error uploading your file.";
+            }
+        }
+    } else {
+        echo "Please select a photo.";
+    }
+}
+$conn->close();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -29,9 +97,7 @@
 
         .box .img-container img {
             width: 100%;
-            /* Adjust the width as needed */
             height: auto;
-            /* Maintain the aspect ratio */
         }
 
         .box .form-container {
@@ -52,9 +118,7 @@
 
         .box .form-container .item img {
             width: 30px;
-            /* Adjust the width of the icon */
             height: auto;
-            /* Maintain the aspect ratio */
             margin-right: 10px;
         }
 
@@ -173,7 +237,8 @@
             </div>
             <div class="form-container">
                 <h2>Report</h2>
-                <form action="process_form.php" method="post" enctype="multipart/form-data">
+                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post"
+                    enctype="multipart/form-data">
                     <div class="item">
                         <label for="JobPhoto" class="file-label">
                             <img src="pictures/Image Icon.png" alt="Image Icon" class="file-icon">
@@ -193,49 +258,6 @@
 
                     <button type="submit" id="ReportingSubmit">Submit</button>
                 </form>
-                <?php
-                // Database connection
-                $host = "localhost";
-                $dbname = "ccp";
-                $username = "root";
-                $password = "";
-
-                try {
-                    // Connect to the database
-                    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
-
-                    // Set the PDO error mode to exception
-                    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-                    // Check if the form was submitted
-                    if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_FILES["JobPhoto"])) {
-                        // Convert the uploaded file to binary data
-                        $imageData = file_get_contents($_FILES["JobPhoto"]["tmp_name"]);
-
-                        if ($imageData) {
-                            // Adjust your table and column names accordingly
-                            $stmt = $pdo->prepare("INSERT INTO reporting (JobPhoto, JobLocation, JobDescription, SubmittedPhoto) VALUES (?, ?, ?, ?)");
-                            $stmt->bindParam(1, $imageData, PDO::PARAM_LOB);
-                            $stmt->bindParam(2, $_POST["JobLocation"]);
-                            $stmt->bindParam(3, $_POST["JobDescription"]);
-                            $stmt->bindParam(4, $imageData, PDO::PARAM_LOB);
-
-                            if ($stmt->execute()) {
-                                // Redirect to home.php after successful submission
-                                header("Location: home.php");
-                                exit(); // Ensure no further execution after the redirect
-                            } else {
-                                echo "Error executing query: " . implode(", ", $stmt->errorInfo());
-                            }
-                        } else {
-                            echo "Error reading image file.";
-                        }
-                    }
-                } catch (PDOException $e) {
-                    echo "Connection failed: " . $e->getMessage();
-                }
-                ?>
-
             </div>
         </div>
     </div>
