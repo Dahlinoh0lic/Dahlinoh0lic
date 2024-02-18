@@ -178,7 +178,7 @@ if ($conn->connect_error) {
 }
 
 // Query database for submitted jobs
-$sql = "SELECT * FROM jobs WHERE Status = 'submitted'";
+$sql = "SELECT * FROM jobs WHERE Status = 2 ";
 $result = $conn->query($sql);
 
 // Display submitted jobs
