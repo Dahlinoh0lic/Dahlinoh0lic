@@ -196,7 +196,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->close();
 
         echo "Job accepted successfully.";
-        
     } elseif (isset($_POST["delete"])) {
         echo "Job has been deleted.";
     }
@@ -217,29 +216,28 @@ if ($result->num_rows > 0) {
     <th>Points</th>
     <th>Action</th>
 </tr>";
-        while ($row = $result->fetch_assoc()) {
-            echo "<tr>";
-            echo "<td>" . $row["JobID"] . "</td>";
-            echo "<td>" . $row["UID"] . "</td>";
-            echo "<td>" . $row["JobName"] . "</td>";
-            echo "<td>" . $row["Points"] . "</td>";
-            echo "<td>";
-            echo "<form method='post'>";
-            echo "<input type='hidden' name='jobId' value='" . $row["JobID"] . "'>";
-            echo "<input type='hidden' name='points' value='" . $row["Points"] . "'>";
-            echo "<button type='submit' name='accept'>Accept</button>";
-            echo "<button type='submit' name='delete'>Delete</button>";
-            echo "</form>";
-            echo "</td>";
-            echo "</tr>";
-        }
-        echo "</table>";
-    } else {
-        echo "No submitted jobs found.";
+    while ($row = $result->fetch_assoc()) {
+        echo "<tr>";
+        echo "<td>" . $row["JobID"] . "</td>";
+        echo "<td>" . $row["UID"] . "</td>";
+        echo "<td>" . $row["JobName"] . "</td>";
+        echo "<td>" . $row["Points"] . "</td>";
+        echo "<td>";
+        echo "<form method='post'>";
+        echo "<input type='hidden' name='jobId' value='" . $row["JobID"] . "'>";
+        echo "<input type='hidden' name='points' value='" . $row["Points"] . "'>";
+        echo "<button type='submit' name='accept'>Accept</button>";
+        echo "<button type='submit' name='delete'>Delete</button>";
+        echo "</form>";
+        echo "</td>";
+        echo "</tr>";
     }
-
-    $conn->close();
-    ?>
+    echo "</table>";
+} else {
+    echo "No submitted jobs found.";
+}
+$conn->close();
+?>
 <div class="fixed-bottom-footer">
     <div class="container">
         <div class="row">
