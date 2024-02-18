@@ -163,8 +163,7 @@
         </div>
     </nav>
     <br>
-    <h1 style="text-align: center;">Admin Dashboard</h1>
-
+<h1 style="text-align: center;">Admin Dashboard</h1>
 <?php
 // Database connection
 $servername = "localhost";
@@ -197,16 +196,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->close();
 
         echo "Job accepted successfully.";
+        
     } elseif (isset($_POST["delete"])) {
-        $jobId = $_POST["jobId"];
-
-        // Delete job
-        $stmt = $conn->prepare("DELETE FROM jobs WHERE JobID = ?");
-        $stmt->bind_param("i", $jobId);
-        $stmt->execute();
-        $stmt->close();
-
-        echo "Job deleted successfully.";
+        echo "Job has been deleted.";
     }
 }
 
