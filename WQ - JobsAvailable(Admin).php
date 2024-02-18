@@ -177,30 +177,6 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Check if the form is submitted
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (isset($_POST["accept"])) {
-        $jobId = $_POST["jobId"];
-        $points = $_POST["points"];
-
-        // Update status to accepted
-        $stmt = $conn->prepare("UPDATE jobs SET Status = 2 WHERE JobID = ?");
-        $stmt->bind_param("i", $jobId);
-        $stmt->execute();
-        $stmt->close();
-
-        // Add points to user
-        $stmt = $conn->prepare("UPDATE users SET Points = Points + ? WHERE UID = ?");
-        $stmt->bind_param("ii", $points, $userId);
-        $stmt->execute();
-        $stmt->close();
-
-        echo "Job accepted successfully.";
-    } elseif (isset($_POST["delete"])) {
-        echo "Job has been deleted.";
-    }
-}
-
 // Query database for submitted jobs
 $sql = "SELECT * FROM jobs WHERE Status = 'submitted'";
 $result = $conn->query($sql);
@@ -235,6 +211,30 @@ if ($result->num_rows > 0) {
     echo "</table>";
 } else {
     echo "No submitted jobs found.";
+}
+
+// Check if the form is submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (isset($_POST["accept"])) {
+        $jobId = $_POST["jobId"];
+        $points = $_POST["points"];
+
+        // Update status to accepted
+        $stmt = $conn->prepare("UPDATE jobs SET Status = 2 WHERE JobID = ?");
+        $stmt->bind_param("i", $jobId);
+        $stmt->execute();
+        $stmt->close();
+
+        // Add points to user
+        $stmt = $conn->prepare("UPDATE users SET Points = Points + ? WHERE UID = ?");
+        $stmt->bind_param("ii", $points, $userId);
+        $stmt->execute();
+        $stmt->close();
+
+        echo "Job accepted successfully.";
+    } elseif (isset($_POST["delete"])) {
+        echo "Job has been deleted.";
+    }
 }
 $conn->close();
 ?>
